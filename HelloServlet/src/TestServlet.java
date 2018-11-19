@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
     public TestServlet() {
-
-    	super(); }
+    	super();
+    	}
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
              request.setCharacterEncoding("UTF-8");
              response.setContentType("text/html; charset=UTF-8");
@@ -20,7 +20,7 @@ public class TestServlet extends HttpServlet {
              System.out.println(username);
              System.out.println(password);
              PrintWriter out=response.getWriter();
-         out.println("<html><head></head><body><br>"+username+"<br>"+password+"</body></html>");
+             out.println("<html><head></head><body><br>"+username+"<br>"+password+"</body></html>");
          }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
              request.setCharacterEncoding("UTF-8");
@@ -30,6 +30,6 @@ public class TestServlet extends HttpServlet {
              System.out.println(username);
              System.out.println(password);
              PrintWriter out=response.getWriter();
-         out.println("<html><head></head><body><br>"+username+"<br>"+password+"</body></html>");
-    }
+             out.println("<html><head></head><body><br>"+username+"<br>"+password+"</body></html>");
+             }
     }

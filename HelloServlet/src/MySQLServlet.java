@@ -21,27 +21,30 @@ public class MySQLServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-out.println("<html>");
-out.println("<head>"); out.println("<title>データベーステスト</title>"); out.println("</head>");
-out.println("<body>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>データベーステスト</title>");
+        out.println("</head>");
+        out.println("<body>");
         Connection conn = null;
         String url = "jdbc:mysql://localhost/testdb";
         String user = "root";
         String password = "mysql";
-try { Class.forName("com.mysql.jdbc.Driver").newInstance(); conn = DriverManager.getConnection(url, user, password);
-          Statement stmt = conn.createStatement();
-          String sql = "SELECT * FROM test_table";
-          ResultSet rs = stmt.executeQuery(sql);
-while(rs.next()){
-int userId = rs.getInt("user_id");
-String userName = rs.getString("user_name");
-String userPassword = rs.getString("password");
-out.println("<p>");
-out.println("ユーザー ID:" + userId + ", ユーザー名:" + userName + ", パスワード:" +
-userPassword);
-            out.println("</p>");
-}
-rs.close();
+        try {
+        	Class.forName("com.mysql.jdbc.Driver").newInstance();
+        	conn = DriverManager.getConnection(url, user, password);
+        	Statement stmt = conn.createStatement();
+        	String sql = "SELECT * FROM test_table";
+        	ResultSet rs = stmt.executeQuery(sql);
+        while(rs.next()){
+        	int userId = rs.getInt("user_id");
+        	String userName = rs.getString("user_name");
+        	String userPassword = rs.getString("password");
+        	out.println("<p>");
+        	out.println("ユーザー ID:" + userId + ", ユーザー名:" + userName + ", パスワード:" +userPassword);
+        	out.println("</p>");
+        	}
+        rs.close();
           stmt.close();
         }catch (ClassNotFoundException e){
           out.println("ClassNotFoundException:" + e.getMessage());
@@ -56,7 +59,8 @@ rs.close();
             }
           }catch (SQLException e){
             out.println("SQLException:" + e.getMessage());
-} }
+            }
+          }
         out.println("</body>");
         out.println("</html>");
     }

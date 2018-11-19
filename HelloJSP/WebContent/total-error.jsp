@@ -13,15 +13,19 @@
 <table border=1>
 <tr>
 <td><strong>エラーメッセージ</strong></td>
-  <td><%= exception.getMessage() %></td>
+<td><%= exception.getMessage() %></td>
 </tr>
-<tr> <td><strong>例外を文字列に変換</strong></td> <td><%= exception.toString() %></td>
-</tr> <tr>
+<tr>
+<td><strong>例外を文字列に変換</strong></td>
+<td><%= exception.toString() %></td>
+</tr>
+<tr>
 <td><strong>スタックトレース</strong></td>
 <td> <%
   exception.printStackTrace(new java.io.PrintWriter(out));
 %>
-</td></tr>
+</td>
+</tr>
 </table>
 </body>
 </html>
