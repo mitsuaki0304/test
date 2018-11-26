@@ -37,7 +37,6 @@ public class LoginDAO {
 				loginDTOList.add(dto);
 			}
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		}
 		try {
