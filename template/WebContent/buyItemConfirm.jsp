@@ -10,10 +10,10 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
-<title>UserCreate画面</title>
+<title>buyItemConfirm画面</title>
 
 <style type="text/css">
-/* ========TAG LAYOUT======== */
+
 body {
 	margin: 0;
 	padding: 0;
@@ -29,7 +29,7 @@ table {
 	text-align: center;
 	margin: 0 auto;
 }
-/* ========ID LAYOUT======== */
+
 #top {
 	width: 780px;
 	margin: 30px auto;
@@ -49,76 +49,61 @@ table {
 }
 
 #footer {
-	 width: 100%;
-	 height: 80px;
-	 background-color: black;
-	 clear: both;
+	width: 100%;
+	height: 80px;
+	background-color: black;
+	clear: both;
 }
+
 </style>
 </head>
 <body>
 	<div id="header">
-	<div id="pr"></div>
+		<div id="pr"></div>
 	</div>
-	<div id ="main">
-	<div id="top">
-		<p>UserCreate</p>
+	<div id="main">
+		<div id="top">
+			<p>BuyItemConfirm</p>
+		</div>
+		<div>
+			<s:form action="BuyItemConfirmAction">
+				<table>
+					<tr>
+						<td>商品名</td>
+						<td><s:property value="session.buyItem_name" /></td>
+					</tr>
+					<tr>
+						<td>値段</td>
+						<td><s:property value="session.buyItem_price" /> <span>円</span>
+						</td>
+					</tr>
+					<tr>
+						<td>購入個数</td>
+						<td><s:property value="session.stock" /> <span>個</span></td>
+					</tr>
+					<tr>
+						<td>支払い方法</td>
+						<td><s:property value="session.pay" /></td>
+					</tr>
+					<tr>
+						<td><s:submit value="完了" /></td>
+					</tr>
+				</table>
+			</s:form>
+		</div>
 	</div>
-	<div>
-	<s:if test="errorMessage!=''">
-		<s:property value="erroMessage" escape="false"/>
-	</s:if>
-	<table>
-	<s:form action ="UserCreateConfirmAction">
-	<tr>
-		<td><labeL>ログインID</labeL></td>
-		<td>
-			<input type="text" name="loginUserID" value=""/>
-		</td>
-		</tr>
-	<tr>
-		<td><labeL>ログインPASS</labeL></td>
-		<td>
-			<input type="text" name="loginPassword" value=""/>
-		</td>
-		</tr>
-	<tr>
-		<td><labeL>ユーザー名</labeL></td>
-		<td>
-			<input type="text" name="UserName" value=""/>
-		</td>
-		</tr>
-		<s:submit value="登録"/>
-		</s:form>
-	</table>
-	<div><span>前画面に戻る場合は</span>
-	<a href='<s:url action="HomeAction" />'>こちら</a>
-	</div>
-	</div>
-</div>
 	<div id="footer">
 		<div id="pr">
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
+
+
+
+
+
+
+
+
+
