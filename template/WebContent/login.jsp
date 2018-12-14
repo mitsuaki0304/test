@@ -77,6 +77,7 @@ table {
 					<a href='<s:url action="UserCreateAction" />'>こちら</a></p>
 		</div>
 	</div>
+	<a href='<s:url action="HomereturnAction" />'>HOME</a>
 
 	<div id="footer">
 		<div id="pr"></div>

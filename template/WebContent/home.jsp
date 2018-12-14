@@ -66,6 +66,17 @@ table {
 			<s:submit value="商品購入" />
 		</s:form>
 
+		<s:form action="MyPageAction">
+			<s:submit value="マイページ" />
+		</s:form>
+
+		<s:form action="UserCreateAction">
+			<s:submit value="新規登録" />
+		</s:form>
+
+
+
+
 	</div>
 	<div id="footer">
 		<div id="pr"></div>

@@ -1,0 +1,9 @@
+package com.internousdev.template.action;
+
+public class HomereturnAction {
+	public String execute(){
+		return SUCCESS;
+}
+
+
+}
