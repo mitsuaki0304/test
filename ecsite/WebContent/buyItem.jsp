@@ -28,11 +28,7 @@ table {
 	text-align: center;
 	margin: 0 auto;
 }
-/* #buyItemList{ */
-/* 	border: 1px solid #000; */
-/* 	width :300px; */
-/* 	float: left; */
-/* 	} */
+
 #top {
 	width: 780px;
 	margin: 30px auto;
@@ -81,6 +77,7 @@ table {
 						<td><s:property value="session.buyItem_price" /><span>円</span>
 						</td>
 					</tr>
+
 					<tr>
 						<td><span>購入個数</span></td>
 						<td>

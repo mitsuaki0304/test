@@ -11,13 +11,13 @@ import com.opensymphony.xwork2.ActionSupport;
 
 
 public class ItemListAction extends ActionSupport implements SessionAware {
-	private int rank;
+//	private int rank;
 	public Map<String, Object> session;
 	private ItemListDAO itemListDAO = new ItemListDAO();
 	private ArrayList<ItemInfoDTO> itemList = new ArrayList<ItemInfoDTO>();
 
 	public String execute() throws SQLException {
-		session.put("rank", rank);
+//		session.put("rank", rank);
 		itemList = itemListDAO.getItemListInfo();
 
 		String result = SUCCESS;

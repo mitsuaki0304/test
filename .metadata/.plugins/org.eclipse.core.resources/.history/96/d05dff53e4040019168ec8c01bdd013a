@@ -1,0 +1,5 @@
+package com.sample.spsite.dao;
+
+public class UserDestinationDAO {
+
+}

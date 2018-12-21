@@ -1,0 +1,52 @@
+package com.sample.spsite.action;
+import java.sql.SQLException;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.CartInCompleteDAO;
+
+public class CartInCompleteAction extends ActionSupport implements SessionAware{
+	public Map<String, Object> session;
+	private int count;
+	private CartInCompleteDAO cartInCompleteDAO = new CartInCompleteDAO();
+	private int totalPrice;
+	public int itemPrice;
+	private int itemId;
+
+	public String execute() throws SQLException{
+
+	System.out.println("cartに入ったアイテムID"+getItemId());
+
+
+	totalPrice=count*itemPrice;
+	System.out.println(totalPrice);
+
+	cartInCompleteDAO.cartInItemInfo(session.get("login_user_id").toString(), itemId, count, totalPrice );
+
+	String result = SUCCESS;
+	return result;
+	}
+
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session = session;
+	}
+	public void setCount(int count){
+		this.count = count;
+	}
+
+	public int getItemId(){
+		return itemId;
+	}
+	public void setItemId(int itemId){
+		this.itemId = itemId;
+	}
+	public int getItemPrice(){
+		return itemPrice;
+	}
+	public void setItemPrice(int itemPrice){
+		this.itemPrice = itemPrice;
+	}
+}

@@ -1,0 +1,94 @@
+package com.sample.spsite.action;
+import java.sql.SQLException;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.CartInCompleteDAO;
+import com.sample.spsite.dao.LoginDAO;
+import com.sample.spsite.dto.LoginDTO;
+
+public class CartInCompleteAction extends ActionSupport implements SessionAware{
+	public Map<String, Object> session;
+	private int count;
+	private CartInCompleteDAO cartInCompleteDAO = new CartInCompleteDAO();
+	private int totalPrice;
+	public int itemPrice;
+	private int itemId;
+	private LoginDAO loginDAO = new LoginDAO();
+	private LoginDTO loginDTO = new LoginDTO();
+	private String loginUserId;
+	private String loginPassword;
+	private String login_id;
+
+	public String execute() throws SQLException{
+
+
+	int intPrice = Integer.parseInt(session.get("itemPrice").toString());
+
+	totalPrice=count*intPrice;
+
+	loginDTO = loginDAO.getLoginUserInfo(loginUserId,loginPassword);
+	session.put("login_id", loginDTO.getLoginId());
+	String userId;
+
+	if(session.containsKey("id")){
+		System.out.println("CartINのテスト"+login_id);
+		userId=session.get("login_user_id").toString();
+	}else{
+		userId=null;
+	}
+	System.out.println("cartIn"+userId);
+	cartInCompleteDAO.cartInItemInfo(userId, itemId, count, totalPrice );
+
+	String result = SUCCESS;
+	return result;
+	}
+
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session = session;
+	}
+	public void setCount(int count){
+		this.count = count;
+	}
+
+	public int getItemId(){
+		return itemId;
+	}
+	public void setItemId(int itemId){
+		this.itemId = itemId;
+	}
+	public int getItemPrice(){
+		return itemPrice;
+	}
+	public void setItemPrice(int itemPrice){
+		this.itemPrice = itemPrice;
+	}
+
+
+	public String getLoginUserId(){
+		return loginUserId;
+	}
+
+	public void setLoginUserId(String loginUserId){
+		this.loginUserId = loginUserId;
+	}
+
+	public String getLoginPassword(){
+		return loginPassword;
+	}
+
+	public void setLoginPassword(String loginPassword){
+		this.loginPassword = loginPassword;
+	}
+
+	public String getLoginId(){
+		return login_id;
+	}
+	public void setLoginId(String login_id){
+		this.login_id = login_id;
+	}
+
+}

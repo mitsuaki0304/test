@@ -1,0 +1,43 @@
+package com.sample.spsite.action;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.BuyItemListDAO;
+import com.sample.spsite.dto.BuyItemInfoDTO;
+
+public class BuyItemListAction extends ActionSupport implements SessionAware {
+
+	public Map<String, Object> session;
+	public String sql;
+	private BuyItemListDAO buyItemListDAO = new BuyItemListDAO();
+	private ArrayList<BuyItemInfoDTO> buyItemList = new ArrayList<BuyItemInfoDTO>();
+
+	public String execute() throws SQLException {
+		sql = "SELECT*FROM item_info_transaction";
+		buyItemList = buyItemListDAO.getBuyItemListInfo(sql);
+		session.put("buyItemList", buyItemList);
+		String result = SUCCESS;
+		return result;
+	}
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session = session;
+	}
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	public ArrayList<BuyItemInfoDTO>getBuyItemList(){
+		return this.buyItemList;
+	}
+
+	public void setBuyItemList(ArrayList<BuyItemInfoDTO> buyItemList) {
+		this.buyItemList = buyItemList;
+	}
+
+
+}

@@ -1,0 +1,94 @@
+package com.sample.spsite.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import com.sample.spsite.dto.CartInfoDTO;
+import com.sample.spsite.util.DBConnector;
+
+public class CartDAO {
+	private DBConnector dbConnector = new DBConnector();
+	private Connection connection = dbConnector.getConnection();
+	// private String sql;
+	public Map<String, Object> session;
+
+	public ArrayList<CartInfoDTO> getCartItemInfo() throws SQLException {
+		ArrayList<CartInfoDTO> cartInfoDTO = new ArrayList<CartInfoDTO>();
+		String sql = "SELECT*FROM cart_info";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				CartInfoDTO dto = new CartInfoDTO();
+				dto.setUserId(resultSet.getString("user_id"));
+				dto.setItemId(resultSet.getInt("item_id"));
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setItemPrice(resultSet.getInt("item_price"));
+				dto.setItemCount(resultSet.getInt("item_count"));
+				dto.setTotalPrice(resultSet.getInt("total_price"));
+				dto.setRegist_date(resultSet.getString("regist_date"));
+				cartInfoDTO.add(dto);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cartInfoDTO;
+	}
+
+	public void insertUserId(String loginId) throws SQLException {
+
+		String sql = "UPDATE cart_info SET user_id=? WHERE user_id IS NULL";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, loginId);
+			preparedStatement.execute();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int  getCartTotalPrice(String loginId) throws SQLException {
+		int Sum;
+		String sql = "select SUM(total_price) from cart_info where user_id=?";
+try{
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setString(1, loginId);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if(resultSet.next()) {
+			Sum = resultSet.getInt("total_price");
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return Sum;
+
+	}
+//	public int sumPrice(String loginId) throws SQLException {
+//
+//		String sql = "SELECT SUM(totalPrice) FROM cart_info where user_id = ?";
+//
+//		try {
+//			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//			preparedStatement.setString(1, loginId);
+//			preparedStatement.execute();
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return A;
+//	}
+
+	public Map<String, Object> getSession() {
+		return this.session;
+	}
+
+}
