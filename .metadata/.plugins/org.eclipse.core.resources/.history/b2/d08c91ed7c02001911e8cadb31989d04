@@ -1,0 +1,89 @@
+package com.sample.spsite.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import com.sample.spsite.dto.BuyItemInfoDTO;
+import com.sample.spsite.util.DBConnector;
+
+public class BuyItemListDAO {
+	private DBConnector dbConnector = new DBConnector();
+	private Connection connection = dbConnector.getConnection();
+	private String sql;
+
+	public Map<String, Object> session;
+
+	public ArrayList<BuyItemInfoDTO> getBuyItemListInfo() throws SQLException {
+		ArrayList<BuyItemInfoDTO> buyItemInfoDTO = new ArrayList<BuyItemInfoDTO>();
+		sql = "SELECT*FROM item_info_transaction";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				BuyItemInfoDTO dto = new BuyItemInfoDTO();
+				dto.setItemName(resultSet.getString("item_id"));
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setItemPrice(resultSet.getInt("item_price"));
+				dto.setItemStock(resultSet.getInt("item_stock"));
+				dto.setItemMaker(resultSet.getString("item_maker"));
+				dto.setItemCategory(resultSet.getString("item_category"));
+
+				buyItemInfoDTO.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
+		return buyItemInfoDTO;
+	}
+
+//	public BuyItemInfoDTO getBuyItemInfo(int productId) {
+//		DBConnector dbConnector = new DBConnector();
+//		Connection connection = dbConnector.getConnection();
+//		ProductInfoDTO productInfoDTO = new ProductInfoDTO();
+//		String sql = "select * from product_info where product_id=?";
+//		try {
+//			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//			preparedStatement.setInt(1, productId);
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			while (resultSet.next()) {
+//				productInfoDTO.setId(resultSet.getInt("id"));
+//				productInfoDTO.setProductId(resultSet.getInt("product_id"));
+//				productInfoDTO.setProductName(resultSet.getString("product_name"));
+//				productInfoDTO.setProductNameKana(resultSet.getString("product_name_kana"));
+//				productInfoDTO.setProductDescription(resultSet.getString("product_description"));
+//				productInfoDTO.setCategoryId(resultSet.getInt("category_id"));
+//				productInfoDTO.setPrice(resultSet.getInt("price"));
+//				productInfoDTO.setImageFilePath(resultSet.getString("image_file_path"));
+//				productInfoDTO.setImageFileName(resultSet.getString("image_file_name"));
+//				productInfoDTO.setReleaseDate(resultSet.getDate("release_date"));
+//				productInfoDTO.setReleaseCompany(resultSet.getString("release_company"));
+//				productInfoDTO.setStatus(resultSet.getInt("status"));
+//				productInfoDTO.setUpdateDate(resultSet.getDate("regist_date"));
+//				productInfoDTO.setUpdateDate(resultSet.getDate("update_date"));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			connection.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return productInfoDTO;
+//	}
+
+
+	public Map<String, Object> getSession() {
+		return this.session;
+	}
+
+
+}

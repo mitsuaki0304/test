@@ -1,0 +1,34 @@
+package com.sample.spsite.action;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+public class BuyItemHistoryAction extends ActionSupport implements SessionAware{
+	public Map<String,Object> session;
+	private BuyItemHistoryDAO buyItemHistoryDAO = new BuyItemHistoryDAO();
+	private ArrayList<BuyItemHistoryDTO> buyItemHistoryList = new ArrayList<BuyItemHistoryDTO>();
+	private String delteFlg;
+	private String message;
+
+	public String execute() throws SQLException {
+		if(!session.contaonsKey("id")){
+			return ERROR;
+		}
+		if(deleteFlg==null){
+			String item_transaction_id = session.get("id").toString();
+			String user_master_id = session.get("login_user_id").toString();
+			buyItemHistoryList=buyItemHistoryDAO.getBuyItemHistoryInfo(item_transaction_id,user_master_id);
+
+		}else if(deleteFlg.equals("1")){
+			delete();
+		}
+		String result=SUCCESS;
+		return result;
+	}
+
+
+}

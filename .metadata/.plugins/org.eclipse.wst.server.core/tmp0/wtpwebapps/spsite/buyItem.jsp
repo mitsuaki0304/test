@@ -1,0 +1,140 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<title>BuyItem画面</title>
+
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.6;
+	letter-spacing: 1px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333;
+	background: #fff;
+}
+
+
+table {
+
+	text-align: center;
+	margin: 0 auto;
+}
+
+#top {
+	width: 780px;
+	margin: 30px auto;
+	border: 1px solid #333;
+}
+
+#header {
+	width: 100%;
+	height: 80px;
+	background-color: black;
+}
+
+#main {
+	width: 100%;
+	height: 500px;
+	text-align: center;
+}
+
+#footer {
+	width: 100%;
+	height: 80px;
+	background-color: black;
+	clear: both;
+}
+</style>
+</head>
+<body>
+
+	<div id="header">
+		<div id="pr"></div>
+	</div>
+	<div id="main">
+		<div id="top">
+			<p>BuyItem</p>
+		</div>
+		<div>
+			<s:form action="BuyItemConfirmAction">
+				<table>
+					<tr>
+						<th>商品名</th>
+						<th>購入個数</th>
+						<th>金額</th>
+					</tr>
+					<s:iterator value="cartList">
+						<tr>
+							<td><s:property value="itemName" /></td>
+							<td><s:property value="itemCount" /><span>個</span></td>
+							<td><s:property value="itemPrice" /><span>円</span></td>
+
+						</tr>
+					</s:iterator>
+					<tr>
+
+					</tr>
+					<tr>
+						<td><span>支払い方法</span></td>
+						<td><input type="radio" name="pay" value="1"
+							checked="checked">現金払い <input type="radio" name="pay"
+							value="2">クレジットカード</td>
+					</tr>
+					<tr>
+						<td>合計<s:property value="session.sum" /><span>円</span></td>
+
+					</tr>
+				</table>
+				<div id="">
+					<table>
+						<tr>
+							<th>氏名</th>
+							<th>電話番号</th>
+							<th>メールアドレス</th>
+							<th>郵便番号</th>
+							<th>都道府県</th>
+							<th>市町村</th>
+							<th>その他</th>
+							<th></th>
+						</tr>
+
+						<s:iterator value="#session.destinationList">
+
+									<tr>
+										<td><s:property value="userName" /></td>
+										<td><s:property value="userTel" /></td>
+										<td><s:property value="userMail" /></td>
+										<td><s:property value="userAddressNum" /></td>
+										<td><s:property value="userAddressPrefecture" /></td>
+										<td><s:property value="userAddressCity" /></td>
+										<td><s:property value="userAddressOther" /></td>
+										<td><a
+								href='<s:url action="BuyItemConfirmAction">
+					<s:param name="id" value="%{id}"/></s:url>'>購入商品を確認する</a></td>
+									</tr>
+
+						</s:iterator>
+					</table>
+				</div>
+<%-- 				<s:submit value="購入" /> --%>
+			</s:form>
+
+		</div>
+	</div>
+
+	<div id="footer">
+		<div id="pr"></div>
+	</div>
+</body>
+</html>

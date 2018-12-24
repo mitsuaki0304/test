@@ -1,0 +1,7 @@
+package com.sample.spsite.action;
+
+public class BuyItemConfirmAction {
+	public String execute(){
+		return SUCCESS;
+	}
+}
