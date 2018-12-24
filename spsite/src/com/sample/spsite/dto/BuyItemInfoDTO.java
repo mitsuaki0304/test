@@ -1,0 +1,69 @@
+package com.sample.spsite.dto;
+
+public class BuyItemInfoDTO {
+	public int itemId;
+
+	public String itemName;
+
+	public int itemPrice;
+
+	public int itemStock;
+
+	public String itemMaker;
+
+	public String itemCategory;
+
+	public int avg;
+
+	public int getItemId(){
+		return itemId;
+	}
+	public void setItemId(int itemId){
+		this.itemId = itemId;
+	}
+
+	public String getItemName(){
+		return itemName;
+	}
+	public void setItemName(String itemName){
+		this.itemName = itemName;
+	}
+
+	public int getItemPrice(){
+		return itemPrice;
+	}
+	public void setItemPrice(int itemPrice){
+		this.itemPrice = itemPrice;
+	}
+
+	public int getItemStock(){
+		return itemStock;
+	}
+	public void setItemStock(int itemStock){
+		this.itemStock = itemStock;
+	}
+
+	public String getItemMaker(){
+		return itemMaker;
+	}
+	public void setItemMaker(String itemMaker){
+		this.itemMaker = itemMaker;
+	}
+
+
+	public String getItemCategory(){
+		return itemCategory;
+	}
+	public void setItemCategory(String itemCategory){
+		this.itemCategory = itemCategory;
+	}
+
+	public int getAvg() {
+		return avg;
+	}
+
+	public void setAvg(int avg)  {
+		this.avg = avg;
+	}
+
+}
