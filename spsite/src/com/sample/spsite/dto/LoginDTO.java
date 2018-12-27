@@ -11,6 +11,8 @@ public class LoginDTO {
 
 	public boolean admin_flg = false;
 
+	public boolean review_flg = false;
+
 	public String getLoginId(){
 		return login_id;
 	}
@@ -46,5 +48,12 @@ public class LoginDTO {
 	}
 	public void setAdminFlg(boolean admin_flg){
 		this.admin_flg=admin_flg;
+	}
+
+	public boolean getReviewFlg(){
+		return review_flg;
+	}
+	public void setReviewFlg(boolean review_flg){
+		this.review_flg=review_flg;
 	}
 }

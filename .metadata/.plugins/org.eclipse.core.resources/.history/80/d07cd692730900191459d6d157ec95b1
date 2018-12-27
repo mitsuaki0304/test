@@ -1,0 +1,228 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="keyword" content="">
+<title>ItemList画面</title>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.6;
+	letter-spacing: 1px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333;
+	background: #fff;
+}
+
+#top {
+	width: 800px;
+	margin: 30px auto;
+	padding: 20px 0 20px 0;
+	border: 1px solid #333;
+}
+
+#header {
+	width: 100%;
+	height: 80px;
+	background-color: black;
+}
+
+#main {
+	width: 800px;
+	text-align: center;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#footer {
+	width: 100%;
+	height: 80px;
+	background-color: black;
+	clear: both;
+}
+
+#image {
+	padding: 100px 100px;
+	color: #fff;
+	background-color: #000;
+	float: left;
+}
+
+#right {
+	float: right;
+}
+
+ul li {
+	list-style: none;
+}
+
+table {
+	border: 2px solid #000;
+	border-collapse: collapse;
+}
+
+table td {
+	padding: 3px 80px;
+	border: 1px solid #000;
+	border-collapse: collapse;
+}
+
+#review {
+	clear: both;
+	margin-top: 50px;
+}
+
+#review span {
+	margin-left: 10px;
+}
+/* #review ul{ */
+/* 	witdh: 300px; */
+/* 	border: 1px solid #000; */
+/* 	margin: 0 25px 25px 0; */
+/* 	} */
+/* li { */
+/* 	list-style: none; */
+/* 	text-align: center; */
+/* 	width: 248px; */
+
+/* 	padding: 2px 0; */
+/* } */
+#userreview {
+	backgroud-color: #efefef;
+}
+
+#userreview li {
+	font-size: 14px;
+	text-align: left;
+	padding: 0 0 5px 10px;
+}
+
+#userreview p {
+	font-size: 14px;
+	text-align: left;
+	padding: 0 0 10px 10px;
+}
+
+#userreview h3 {
+	padding: 20px;
+}
+
+#reviewform {
+	padding: 20px;
+}
+</style>
+</head>
+<body>
+	<div id="header">
+		<div id="pr"></div>
+	</div>
+	<div id="main">
+		<div id="top">
+			<p>BuyItemDetail</p>
+		</div>
+		<div id="image">画像はイメージです</div>
+		<div id="right">
+			<s:form action="CartInCompleteAction">
+				<table>
+					<tr>
+						<td>商品名</td>
+						<td><s:property value="session.itemName" /></td>
+						<s:hidden name="itemName" value="session.itemName" />
+					</tr>
+					<tr>
+						<td>値段</td>
+						<td><s:property value="session.itemPrice" /></td>
+					</tr>
+					<tr>
+						<td>在庫数</td>
+						<td><s:property value="session.itemStock" /></td>
+					</tr>
+					<tr>
+						<td>メーカー</td>
+						<td><s:property value="session.itemMaker" /></td>
+					</tr>
+					<tr>
+						<td>分類</td>
+						<td><s:property value="session.itemCategory" /></td>
+					</tr>
+				</table>
+				<s:property value="#session.avg" />
+
+				<h3>購入個数</h3>
+
+				<select name="count">
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+				<s:hidden name="itemId" value="%{itemId}" />
+				<s:hidden name="itemPrice" value="%{itemPrice}" />
+				<s:hidden name="itemName" value="%{itemName}" />
+				<s:submit value="カートに入れる" />
+			</s:form>
+
+		</div>
+
+		<div id="review">
+
+			<h3>ユーザーレビュー</h3>
+			<s:iterator value="reviewList">
+				<ul id="userreview">
+					<li><s:property value="userName" /></li>
+					<li>評価:<s:property value="rank" /><span><s:property
+								value="title" /></span></li>
+					<li><hr>
+						<p>
+							<s:property value="comment" />
+						</p></li>
+				</ul>
+
+			</s:iterator>
+			<div id="reviewform">
+				<a
+					href='<s:url action="ReviewAction">
+					<s:param name="itemId" value="%{itemId}"/>
+									</s:url>'>カスタムレビューを書く</a>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div id="pr"></div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -20,9 +20,16 @@ public class CartAction  extends ActionSupport implements SessionAware{
 	public String execute() throws SQLException{
 
 		if(session.containsKey("loginId")){
+			String loginId = session.get("loginId").toString();
 
-			cartList = cartDAO.getCartItemInfo();
-			session.put("cartList", cartList);
+			cartDAO.insertUserId(loginId);
+			cartList = cartDAO.getCartItemInfo(loginId);
+			cartDAO.getCartTotalPrice(loginId);
+			int sum = Integer.parseInt(String.valueOf(cartDAO.getCartTotalPrice(loginId)));
+			session.put("sum",sum);
+			session.put("loginId",loginId);
+//			cartList = cartDAO.getCartItemInfo();
+//			session.put("cartList", cartList);
 			String result = SUCCESS;
 			return result;
 		}
@@ -74,4 +81,6 @@ public class CartAction  extends ActionSupport implements SessionAware{
 	public void setType(String type) {
 		this.type = type;
 	}
+
+
 }

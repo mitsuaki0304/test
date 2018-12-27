@@ -26,11 +26,12 @@ public class BuyItemAddressAction extends ActionSupport implements SessionAware{
 
 	public String execute() throws SQLException{
 
+
+		String result = SUCCESS;
 		cartList=cartDAO.getSerchCartItemInfo(loginId);
 		destinationList=userDestinationDAO.getUserDestinaton(loginId);
 		session.put("destinationList", destinationList);
 
-		String result = SUCCESS;
 		return result;
 	}
 

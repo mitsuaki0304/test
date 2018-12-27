@@ -11,7 +11,7 @@ create table login_user_transaction(
 id int not null primary key auto_increment,
 login_id varchar(16) unique,
 login_pass varchar(16),
-user_name varchar(50),
+user_name varchar(255),
 insert_date datetime,
 updated_date datetime,
 admin_flg varchar(1)
@@ -28,6 +28,8 @@ item_stock int,
 item_maker varchar(255),
 item_category varchar(225),
 item_review int,  /*12/23追加*/
+image_file_path varchar(100),
+image_file_name varchar(50),
 insert_date datetime,
 update_date datetime
 );
@@ -35,22 +37,28 @@ update_date datetime
 drop table if exists user_buy_item_transaction;
 create table user_buy_item_transaction(
 id int not null primary key auto_increment,
-item_transaction_id int,
-total_price int,
-total_count int,
-user_master_id varchar(16),
+item_id int,
+item_name varchar(30),
+item_price int,
+item_count int,
+total_price int not null,
+user_id varchar(16),
 pay varchar(30),
+user_address_num varchar(13),
+user_address_prefecture varchar(225),
+user_address_city varchar(225),
+user_address_other varchar(225),
 insert_date datetime,
 delete_date datetime
 );
 
-INSERT INTO item_info_transaction(item_id, item_name, item_price, item_stock, item_maker, item_category)
-VALUES(1,"ノートBook", 100, 50,"A社","オフィス"),
-(2,"ペン", 180, 150,"B社","文具"),
-(3,"消しゴム", 10, 20,"C社","オフィス"),
-(4,"万年筆", 10000, 10,"D社","書斎"),
-(5,"ハサミ", 300, 40,"E社","オフィス"),
-(6,"筆箱", 700, 70,"F社","文具");
+INSERT INTO item_info_transaction(item_id, item_name, item_price, item_stock, item_maker, item_category,image_file_path,image_file_name )
+VALUES(1,"ノートBook", 100, 50,"A社","オフィス","./images","notebook.jpg"),
+(2,"ペン", 180, 150,"B社","文具","./images","notebook.jpg"),
+(3,"消しゴム", 10, 20,"C社","オフィス","./images","kesigomu.jpg"),
+(4,"万年筆", 10000, 10,"D社","書斎","./images","pen.jpg"),
+(5,"ハサミ", 300, 40,"E社","オフィス","./images","hasami.jpg"),
+(6,"筆箱", 700, 70,"F社","文具","./images","pencase.jpg");
 INSERT INTO login_user_transaction(login_id, login_pass, user_name, admin_flg) VALUES
 ("internous", "internous01", "test","1"),
 ("a", "a", "namae",null),
@@ -72,18 +80,18 @@ create table user_destination(
 id int primary key not null auto_increment,
 user_id varchar(16),
 user_name varchar(50),
-user_tel int not null,
+user_tel varchar(13),
 user_mail varchar(225),
-user_address_num int not null,
+user_address_num varchar(13),
 user_address_prefecture varchar(225),
 user_address_city varchar(225),
 user_address_other varchar(225)
 
 );
 INSERT INTO user_destination(user_id, user_name, user_tel, user_mail, user_address_num, user_address_prefecture, user_address_city, user_address_other)VALUES
-("a", "namae", 111, "mail@yahoo.co.jp" ,1111111, "東京都", "XXX区" , "その他の番地と建物"),
-("a", "namae", 111, "mailyahoojp" ,1111111, "大阪府", "YYY区" , "その他の番地と建物"),
-("b", "namae", 111, "mail@yahoo.co.jp" ,1111111, "神奈川県", "YYY区" , "その他の番地と建物");
+("a", "namae", 09012345678, "mail@yahoo.co.jp" ,1111111, "東京都", "XXX区" , "その他の番地と建物"),
+("a", "namae", 09012345678, "mailyahoojp" ,1111111, "大阪府", "YYY区" , "その他の番地と建物"),
+("b", "reviewuser1", 09012345678, "mail@yahoo.co.jp" ,1111111, "神奈川県", "YYY区" , "その他の番地と建物");
 
 create table user_review(
 id int primary key not null auto_increment,
@@ -99,7 +107,8 @@ comment varchar(255)
 insert into user_review(user_id,item_id, user_name, item_name,title,rank, comment) VALUES
 ("f",1,"user1","ノートBook","いいものを買いました",3,"次回も買いたいと思います"),
 ("c",1,"user2","ノートBook","いいものを買いました",5,"次回も買いたいと思います"),
-("n",1,"user3","ノートBook","いいものを買いました",2,"次回も買いたいと思います");
+("n",1,"user3","ノートBook","いいものを買いました",2,"次回も買いたいと思います"),
+("n",2,"user3","ペン","いいものを買いました",2,"次回も買いたいと思います");
 
 
 

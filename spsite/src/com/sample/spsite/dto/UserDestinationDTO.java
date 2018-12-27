@@ -4,9 +4,9 @@ public class UserDestinationDTO {
 	private int id;
 	private String userId;
 	private String userName;
-	private int userTel;
+	private String userTel;
 	private String userMail;
-	private int userAddressNum;
+	private String userAddressNum;
 	private String userAddressPrefecture;
 	private String userAddressCity;
 	private String userAddressOther;
@@ -35,10 +35,10 @@ public class UserDestinationDTO {
 	}
 
 
-	public int getUserTel(){
+	public String getUserTel(){
 		return userTel;
 	}
-	public void setUserTel(int userTel){
+	public void setUserTel(String userTel){
 		this.userTel = userTel;
 	}
 
@@ -51,10 +51,10 @@ public class UserDestinationDTO {
 	}
 
 
-	public int getUserAddressNum(){
+	public String getUserAddressNum(){
 		return userAddressNum;
 	}
-	public void setUserAddressNum(int userAddressNum){
+	public void setUserAddressNum(String userAddressNum){
 		this.userAddressNum = userAddressNum;
 	}
 

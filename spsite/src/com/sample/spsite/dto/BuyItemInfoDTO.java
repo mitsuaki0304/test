@@ -13,7 +13,11 @@ public class BuyItemInfoDTO {
 
 	public String itemCategory;
 
-	public int avg;
+	private String imageFilePath;
+
+	private String imageFileName;
+
+	public double itemReview;
 
 	public int getItemId(){
 		return itemId;
@@ -57,13 +61,25 @@ public class BuyItemInfoDTO {
 	public void setItemCategory(String itemCategory){
 		this.itemCategory = itemCategory;
 	}
-
-	public int getAvg() {
-		return avg;
+	public String getImageFilePath() {
+		return imageFilePath;
+	}
+	public void setImageFilePath(String imageFilePath) {
+		this.imageFilePath = imageFilePath;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
 	}
 
-	public void setAvg(int avg)  {
-		this.avg = avg;
+	public double getItemReview() {
+		return itemReview;
+	}
+
+	public void setItemReview(double itemReview)  {
+		this.itemReview = itemReview;
 	}
 
 }

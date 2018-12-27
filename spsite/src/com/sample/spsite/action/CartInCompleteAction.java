@@ -36,7 +36,7 @@ public class CartInCompleteAction extends ActionSupport implements SessionAware{
 
 	if(session.containsKey("id")){
 		System.out.println("CartINのテスト"+login_id);
-		userId=session.get("login_user_id").toString();
+		userId=session.get("login_user_id").toString(); //ユーザーIDを起点にデータ参照
 	}else{
 		userId=null;
 	}

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<package name="com.sample.spsite.action" extends="struts-default">
+
+		<action name="BuyItemListAction" class="com.sample.spsite.action.BuyItemListAction"
+			method="execute">
+			<result name="success">buyItemList.jsp</result>
+		</action>
+
+		<action name="AdminAction" class="com.sample.spsite.action.AdminAction"
+			method="execute">
+			<result name="success">admin.jsp</result>
+		</action>
+
+		<action name="ItemCreateAction" class="com.sample.spsite.action.ItemCreateAction"
+			method="execute">
+			<result name="success">itemCreate.jsp</result>
+		</action>
+
+		<action name="ItemCreateConfirmAction" class="com.sample.spsite.action.ItemCreateConfirmAction"
+			method="execute">
+			<result name="success">itemCreateConfirm.jsp</result>
+			<result name="error">itemCreate.jsp</result>
+		</action>
+
+		<action name="ItemCreateCompleteAction"
+			class="com.sample.spsite.action.ItemCreateCompleteAction" method="execute">
+			<result name="success">itemCreateComplete.jsp</result>
+		</action>
+
+		<action name="BuyItemDetailAction" class="com.sample.spsite.action.BuyItemDetailAction"
+			method="execute">
+			<result name="success">buyItemDetail.jsp</result>
+		</action>
+
+		<action name="SortAction" class="com.sample.spsite.action.SortAction"
+			method="execute">
+			<result name="success">buyItemList.jsp</result>
+			<result name="error">buyItemList.jsp</result>
+		</action>
+
+		<action name="MyPageAction" class="com.sample.spsite.action.MyPageAction"
+			method="execute">
+			<result name="success">myPage.jsp</result>
+			<result name="login">login.jsp</result>
+		</action>
+
+		<action name="LoginAction" class="com.sample.spsite.action.LoginAction"
+			method="execute">
+			<result name="success">home.jsp</result>
+			<result name="error">login.jsp</result>
+			<result name="admin">admin.jsp</result>
+			<result name="cart">cart.jsp</result>
+			<result name="mypage">myPage.jsp</result>
+			<result name="review">review.jsp</result>
+		</action>
+
+		<action name="UserCreateAction" class="com.sample.spsite.action.UserCreateAction"
+			method="execute">
+			<result name="success">userCreate.jsp</result>
+			<result name="back">login.jsp</result>
+		</action>
+
+		<action name="UserCreateConfirmAction" class="com.sample.spsite.action.UserCreateConfirmAction"
+			method="execute">
+			<result name="success">userCreateConfirm.jsp</result>
+			<result name="error">userCreate.jsp</result>
+		</action>
+
+		<action name="UserCreateCompleteAction"
+			class="com.sample.spsite.action.UserCreateCompleteAction" method="execute">
+			<result name="success">userCreateComplete.jsp</result>
+		</action>
+
+		<action name="CartInCompleteAction" class="com.sample.spsite.action.CartInCompleteAction"
+			method="execute">
+			<result name="success">cartInComplete.jsp</result>
+		</action>
+
+		<action name="CartAction" class="com.sample.spsite.action.CartAction"
+			method="execute">
+			<result name="login">login.jsp</result>
+			<result name="success">cart.jsp</result>
+		</action>
+
+
+
+
+		<action name="BuyItemAddressAction" class="com.sample.spsite.action.BuyItemAddressAction"
+			method="execute">
+			<result name="success">buyItemAddress.jsp</result>
+		</action>
+
+		<action name="BuyItemPayAction" class="com.sample.spsite.action.BuyItemPayAction"
+			method="execute">
+			<result name="success">buyItemPay.jsp</result>
+		</action>
+
+		<action name="BuyItemConfirmAction" class="com.sample.spsite.action.BuyItemConfirmAction"
+			method="execute">
+			<result name="success">buyItemConfirm.jsp</result>
+		</action>
+
+		<action name="BuyItemCompleteAction" class="com.sample.spsite.action.BuyItemCompleteAction"
+			method="execute">
+			<result name="success">buyItemComplete.jsp</result>
+		</action>
+
+		<action name="BuyItemHistoryAction" class="com.sample.spsite.action.BuyItemHistoryAction"
+			method="execute">
+			<result name="success">buyItemHistory.jsp</result>
+<!-- 			<result name="error">myPage.jsp</result> -->
+		</action>
+
+
+
+
+
+
+
+
+
+
+
+
+		<action name="ReviewAction" class="com.sample.spsite.action.ReviewAction"
+			method="execute">
+			<result name="success">review.jsp</result>
+			<result name="login">login.jsp</result>
+		</action>
+
+		<action name="ReviewConfirmAction" class="com.sample.spsite.action.ReviewConfirmAction"
+			method="execute">
+			<result name="success">reviewConfirm.jsp</result>
+		</action>
+
+		<action name="ReviewCompleteAction" class="com.sample.spsite.action.ReviewCompleteAction"
+			method="execute">
+			<result name="success">reviewComplete.jsp</result>
+		</action>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<action name="AddressCreateAction" class="com.sample.spsite.action.AddressCreateAction"
+			method="execute">
+			<result name="success">addressCreateAction.jsp</result>
+		</action>
+
+		<action name="AddressCreateConfirmAction" class="com.sample.spsite.action.AddressCreateConfirmAction"
+			method="execute">
+			<result name="success">addressCreateConfirmAction.jsp</result>
+		</action>
+
+		<action name="AddressCreateCompleteAction" class="com.sample.spsite.action.AddressCreateCompleteAction"
+			method="execute">
+			<result name="success">addressCreateComplete.jsp</result>
+		</action>
+
+
+
+
+	</package>
+</struts>

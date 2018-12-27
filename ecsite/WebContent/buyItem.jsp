@@ -28,7 +28,6 @@ table {
 	text-align: center;
 	margin: 0 auto;
 }
-
 #top {
 	width: 780px;
 	margin: 30px auto;
@@ -65,7 +64,7 @@ table {
 			<p>BuyItem</p>
 		</div>
 		<div>
-			<s:form action="BuyItemAction" id="buyItemList">
+			<s:form action="BuyItemAction">
 				<table>
 					<tr>
 						<td><span>商品名</span></td>
@@ -77,7 +76,6 @@ table {
 						<td><s:property value="session.buyItem_price" /><span>円</span>
 						</td>
 					</tr>
-
 					<tr>
 						<td><span>購入個数</span></td>
 						<td>
@@ -112,7 +110,7 @@ table {
 			</div>
 		</div>
 	</div>
-
+	前の続きです。 次へ続きます。 buyItem.jspの作成
 	<div id="footer">
 		<div id="pr"></div>
 	</div>

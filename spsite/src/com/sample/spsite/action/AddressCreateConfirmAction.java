@@ -8,9 +8,9 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class AddressCreateConfirmAction extends ActionSupport implements SessionAware {
 
-	private int userTel;
+	private String userTel;
 	private String userMail;
-	private int userAddressNum;
+	private String userAddressNum;
 	private String userAddressPrefecture;
 	private String userAddressCity;
 	private String userAddressOther;
@@ -20,12 +20,12 @@ public class AddressCreateConfirmAction extends ActionSupport implements Session
 	public String execute(){
 		String result = SUCCESS;
 
-		if(!(userTel==0)
+		if(!(userTel.equals(""))
 			&&!(userMail.equals(""))
-			&&!(userAddressNum==0)
+			&&!(userAddressNum.equals(""))
 			&&!(userAddressPrefecture.equals(""))
 			&&!(userAddressCity.equals(""))
-			&& !(userAddressCity.equals(""))
+			&&!(userAddressOther.equals(""))
 			){
 				session.put("loginId", session.get("loginId"));
 				session.put("userName", session.get("userName"));
@@ -36,8 +36,6 @@ public class AddressCreateConfirmAction extends ActionSupport implements Session
 				session.put("userAddressCity", userAddressCity);
 				session.put("userAddressOther", userAddressOther);
 
-
-
 			}else{
 				setErrorMassage("未入力の項目があります。");
 				result = ERROR;
@@ -45,11 +43,11 @@ public class AddressCreateConfirmAction extends ActionSupport implements Session
 		return result;
 	}
 
-	public int getUserTel() {
+	public String getUserTel() {
 		return userTel;
 	}
 
-	public void setUserTel(int userTel) {
+	public void setUserTel(String userTel) {
 		this.userTel = userTel;
 	}
 
@@ -61,11 +59,11 @@ public class AddressCreateConfirmAction extends ActionSupport implements Session
 		this.userMail = userMail;
 	}
 
-	public int getUserAddressNum() {
+	public String getUserAddressNum() {
 		return userAddressNum;
 	}
 
-	public void setUserAddressNum(int userAddressNum) {
+	public void setUserAddressNum(String userAddressNum) {
 		this.userAddressNum = userAddressNum;
 	}
 

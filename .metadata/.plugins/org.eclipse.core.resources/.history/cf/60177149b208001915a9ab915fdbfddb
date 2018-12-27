@@ -1,0 +1,145 @@
+package com.sample.spsite.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.sample.spsite.dto.LoginDTO;
+import com.sample.spsite.dto.ReviewInfoDTO;
+import com.sample.spsite.util.DBConnector;
+public class ReviewCompleteDAO implements SessionAware{
+	public Map<String, Object> session;
+	private DBConnector dbConnector = new DBConnector();
+	private Connection connection = dbConnector.getConnection();
+private LoginDTO loginDTO = new LoginDTO();
+
+	public void userReview(String loginId,int itemId, String userName,String itemName, String title,int rank, String comment)throws SQLException{
+		String sql = "INSERT INTO user_review(user_id, item_id, user_name, item_name, title, rank, comment) VALUES(?,?,?,?,?,?,?)";
+
+		try {
+		PreparedStatement preparedStatement =connection.prepareStatement(sql);
+		preparedStatement.setString(1, loginId);
+		preparedStatement.setInt(2, itemId);
+		preparedStatement.setString(3, userName);
+		preparedStatement.setString(4, itemName);
+		preparedStatement.setString(5, title);
+		preparedStatement.setInt(6, rank);
+		preparedStatement.setString(7, comment);
+		preparedStatement.execute();
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally{
+		connection.close();
+	}
+}
+	public ArrayList<ReviewInfoDTO> serchReview(int itemId) throws SQLException {
+		ArrayList<ReviewInfoDTO> reviewInfoDTO = new ArrayList<ReviewInfoDTO>();
+		String sql = "SELECT*FROM user_review where item_id=?";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, itemId);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				ReviewInfoDTO dto = new ReviewInfoDTO();
+				dto.setUserId(resultSet.getString("user_id"));
+				dto.setItemId(resultSet.getInt("item_id"));
+				dto.setUserName(resultSet.getString("user_name"));
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setTitle(resultSet.getString("title"));
+				dto.setRank(resultSet.getInt("rank"));
+				dto.setComment(resultSet.getString("comment"));
+				reviewInfoDTO.add(dto);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reviewInfoDTO;
+
+	}
+	//二重書き込み判定
+	public ReviewInfoDTO doublecheck(int itemId,String loginId)throws SQLException{
+		ReviewInfoDTO reviewInfoDTO = new ReviewInfoDTO();
+		String sql = "select*from user_review where item_id=? AND user_id=?";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, itemId);
+			preparedStatement.setString(2, loginId);
+			System.out.println("ReviewDAO通過テスト");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				ReviewInfoDTO dto = new ReviewInfoDTO();
+				dto.setUserId(resultSet.getString("user_id"));
+				dto.setItemId(resultSet.getInt("item_id"));
+				dto.setUserName(resultSet.getString("user_name"));
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setTitle(resultSet.getString("title"));
+				dto.setRank(resultSet.getInt("rank"));
+				dto.setComment(resultSet.getString("comment"));
+			}
+			System.out.println("ReviewDAOuserId"+resultSet.getString("user_id"));
+			if (!(resultSet.getString("user_id").equals(null))) {
+				System.out.println("IF通過テスト");
+				loginDTO.setReviewFlg(true);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return reviewInfoDTO;
+
+	}
+
+	//二重書き込み判定
+//	public ReviewInfoDTO reviewAvg(int itemId)throws SQLException{
+//		ReviewInfoDTO reviewInfoDTO = new ReviewInfoDTO();
+//		String sql = "select AVG(rank) as avg from user_review where item_id=?";
+//
+//		try {
+//			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//			preparedStatement.setInt(1, itemId);
+//
+//			ResultSet resultSet = preparedStatement.executeQuery();
+//			if (resultSet.next()) {
+//				ReviewInfoDTO dto = new ReviewInfoDTO();
+//				dto.setAvg(resultSet.getInt("avg"));
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return reviewInfoDTO;
+//
+//	}
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session = session;
+	}
+
+	public LoginDTO getLoginDTO(){
+		return loginDTO;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

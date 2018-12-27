@@ -15,29 +15,41 @@ public class BuyItemDetailAction extends ActionSupport implements SessionAware {
 
 	private ArrayList<BuyItemInfoDTO> buyItemList = new ArrayList<BuyItemInfoDTO>();
 	private ArrayList<ReviewInfoDTO> reviewList = new ArrayList<ReviewInfoDTO>();
-	ReviewInfoDTO avg = new ReviewInfoDTO();
+	ReviewInfoDTO reviewInfoDTO = new ReviewInfoDTO();
 	private int itemId;
 	public String sql;
+	private double itemReview;
+	private String imageFileName;
+
+
 	private ReviewCompleteDAO reviewCompleteDAO = new ReviewCompleteDAO();
 	public String execute() throws SQLException {
-
-		sql = "SELECT*FROM item_info_transaction";
 
 		BuyItemListDAO buyItemListDAO = new BuyItemListDAO();
 		BuyItemInfoDTO buyItemInfoDTO  = new BuyItemInfoDTO();
 		buyItemInfoDTO = buyItemListDAO.getBuyItemInfo(itemId);
-		buyItemList = buyItemListDAO.getBuyItemListInfo(sql);
-
+		buyItemList = buyItemListDAO.getBuyItemListInfo();
+		System.out.println("itemId"+itemId);
+		System.out.println("imageFileName"+imageFileName);
 		session.put("itemId", buyItemInfoDTO.getItemId());
 		session.put("itemName", buyItemInfoDTO.getItemName());
 		session.put("itemPrice", buyItemInfoDTO.getItemPrice());
 		session.put("itemStock", buyItemInfoDTO.getItemStock());
 		session.put("itemMaker", buyItemInfoDTO.getItemMaker());
 		session.put("itemCategory", buyItemInfoDTO.getItemCategory());
+		session.put("imageFilePath", buyItemInfoDTO.getImageFilePath());
+		session.put("imageFileName", buyItemInfoDTO.getImageFileName());
+		session.put("itemReview",buyItemInfoDTO.getItemReview());
+
+		if(session.containsKey("loginId")){
+			session.get("itemId").toString();
+		}
 
 		reviewList=reviewCompleteDAO.serchReview(itemId);
 
-		avg=reviewCompleteDAO.reviewAvg(itemId);
+//		reviewInfoDTO=reviewCompleteDAO.reviewAvg(itemId);
+
+//		session.put("avg",reviewInfoDTO);
 
 		String result = SUCCESS;
 		return result;
@@ -62,12 +74,28 @@ public class BuyItemDetailAction extends ActionSupport implements SessionAware {
 		this.itemId = itemId;
 	}
 
-	public ReviewInfoDTO getAvg() {
-		return avg;
+	public ReviewInfoDTO getReviewInfoDTO() {
+		return reviewInfoDTO;
 	}
 
-	public void setAvg(ReviewInfoDTO avg) {
-		this.avg=avg;
+	public void setReviewInfoDTO(ReviewInfoDTO reviewInfoDTO) {
+		this.reviewInfoDTO=reviewInfoDTO;
 	}
+
+	public double getItemReview() {
+		return itemReview;
+	}
+
+	public void setItemReview(double itemReview)  {
+		this.itemReview = itemReview;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
 
 }

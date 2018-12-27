@@ -16,13 +16,13 @@ public class CartDAO {
 	// private String sql;
 	public Map<String, Object> session;
 
-	public ArrayList<CartInfoDTO> getCartItemInfo() throws SQLException {
+	public ArrayList<CartInfoDTO> getCartItemInfo(String loginId) throws SQLException {
 		ArrayList<CartInfoDTO> cartInfoDTO = new ArrayList<CartInfoDTO>();
-		String sql = "SELECT*FROM cart_info";
+		String sql = "SELECT*FROM cart_info where user_id=?";
 
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+			preparedStatement.setString(1, loginId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				CartInfoDTO dto = new CartInfoDTO();
@@ -76,6 +76,20 @@ public class CartDAO {
 		System.out.println("テストsum"+sum);
 		return sum;
 
+	}
+
+	public void deleteCart(String loginId) throws SQLException {
+
+		String sql = "delete from cart_info WHERE user_id=?";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, loginId);
+			preparedStatement.execute();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	// public int sumPrice(String loginId) throws SQLException {
 	//

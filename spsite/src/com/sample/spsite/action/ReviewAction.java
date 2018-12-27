@@ -1,18 +1,39 @@
 package com.sample.spsite.action;
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-
+import com.sample.spsite.dao.ReviewCompleteDAO;
+import com.sample.spsite.dto.LoginDTO;
+import com.sample.spsite.dto.ReviewInfoDTO;
 public class ReviewAction extends ActionSupport implements SessionAware {
 	public Map<String,Object> session;
 	private String type;
-	public String execute(){
+	private String message;
+	private ArrayList<ReviewInfoDTO> reviewList = new ArrayList<ReviewInfoDTO>();
+	private LoginDTO loginDTO = new LoginDTO();
+	private ReviewCompleteDAO reviewCompleteDAO = new ReviewCompleteDAO();
+	private int itemId;
+	private String loginId;
+	public String execute()throws SQLException{
 
 		if(session.containsKey("loginId")){
+
+			int itemId=Integer.parseInt(session.get("itemId").toString());
+			loginDTO=reviewCompleteDAO.doublecheck(itemId, session.get("loginId").toString());
+			System.out.print("Flg"+loginDTO.getReviewFlg());
+			if (loginDTO.getReviewFlg()) { //trueで書き込みありのデータ確認 二重書き込み禁止へ
+				String result = ERROR;
+				setMessage("すでにレビュー投稿されています。");
+				reviewList=reviewCompleteDAO.serchReview(itemId);
+				return result;
+			}
+
 			String result = SUCCESS;
 			return result;
 		}
@@ -37,4 +58,30 @@ public class ReviewAction extends ActionSupport implements SessionAware {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public ArrayList<ReviewInfoDTO>getReviewList(){
+		return this.reviewList;
+	}
+	public int getItemId(){
+		return itemId;
+	}
+	public void setItemId(int itemId){
+		this.itemId = itemId;
+	}
+
+	public String getLoginId(){
+		return loginId;
+	}
+	public void setLoginId(String loginId){
+		this.loginId = loginId;
+	}
+
+	public String getMessage() {
+		return this.message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
 }

@@ -4,13 +4,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.sample.spsite.dao.CartDAO;
 import com.sample.spsite.dao.UserDestinationDAO;
 import com.sample.spsite.dto.CartInfoDTO;
 import com.sample.spsite.dto.UserDestinationDTO;
 
-public class BuyItemConfirmAction extends ActionSupport{
+public class BuyItemConfirmAction extends ActionSupport implements SessionAware{
 	private int id;
 	public Map<String, Object> session;
 	private int sum;
@@ -24,18 +26,23 @@ public class BuyItemConfirmAction extends ActionSupport{
 	public UserDestinationDTO dto = new UserDestinationDTO();
 	public String execute()throws SQLException{
 
-		System.out.println("pay"+pay);
-		System.out.println("ユーザーID"+loginId);
+		System.out.println("userAddressPrefectureconfirm"+session.get("userAddressPrefecture"));
+//		System.out.println("ユーザーID"+loginId);
+//		System.out.println("ID"+id);
+//
+
+		String payment;
+		if(pay.equals("1")){
+		payment = "現金払い";
+		System.out.println("Payment"+payment);
+		session.put("pay", payment);
+	}else{
+		payment = "クレジットカード";
+		session.put("pay" ,payment);
+	}
 		cartList=cartDAO.getSerchCartItemInfo(loginId);
 		destinationList=userDestinationDAO.getSerchDestinaton(id);
-//		if(pay.equals("1")){
-//		payment = "現金払い";
-//		session.put("pay",payment);
-//	}else{
-//		payment = "クレジットカード";
-//		session.put("pay",payment);
-//	}
-		System.out.println("ユーザーのアドレス"+dto.getUserId());
+		session.put("destinationList", destinationList);
 		return SUCCESS;
 	}
 
@@ -78,6 +85,9 @@ public class BuyItemConfirmAction extends ActionSupport{
 	}
 	public void setDestinationList(ArrayList<UserDestinationDTO>destinationList){
 		this.destinationList = destinationList;
+	}
+	public String getPay(){
+		return pay;
 	}
 
 	public void setPay(String pay){

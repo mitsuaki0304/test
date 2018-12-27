@@ -1,0 +1,93 @@
+package com.sample.spsite.action;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class ItemCreateConfirmAction extends ActionSupport implements SessionAware {
+
+	private String itemName;
+	private int itemPrice;
+	private int itemStock;
+	private String itemMaker;
+	private String itemCategory;
+	public Map<String, Object> session;
+	private String errorMassage;
+//
+	public String execute() {
+		String result = SUCCESS;
+
+		if (!(itemName.equals(""))
+			&& !(itemPrice==0)
+			&& !(itemStock==0)
+			&& !(itemMaker.equals(""))
+			&& !(itemCategory.equals(""))){
+				session.put("itemName", itemName);
+				session.put("itemPrice", itemPrice);
+				session.put("itemStock", itemStock);
+				session.put("itemMaker", itemMaker);
+				session.put("itemCategory", itemCategory);
+				System.out.println("test4");
+		} else {
+			setErrorMassage("未入力の項目があります。");
+			result = ERROR;
+		}
+		return result;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public int getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(int itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	public int getItemStock() {
+		return itemStock;
+	}
+
+	public void setItemStock(int itemStock) {
+		this.itemStock = itemStock;
+	}
+
+	public String getItemMaker() {
+		return itemMaker;
+	}
+
+	public void setItemMaker(String itemMaker) {
+		this.itemMaker = itemMaker;
+	}
+
+	public String getItemCategory() {
+		return itemCategory;
+	}
+
+	public void setItemCategory(String itemCategory) {
+		this.itemCategory = itemCategory;
+	}
+
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+
+	public String getErrorMassage() {
+		return errorMassage;
+	}
+
+	public void setErrorMassage(String errorMassage) {
+		this.errorMassage = errorMassage;
+	}
+
+}

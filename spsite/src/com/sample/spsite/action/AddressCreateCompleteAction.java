@@ -22,12 +22,13 @@ public class AddressCreateCompleteAction extends ActionSupport implements Sessio
 	private AddressCreateCompleteDAO addressCreateCompleteDAO = new AddressCreateCompleteDAO();
 
 	public String execute() throws SQLException {
+		System.out.println("userNamedesutination"+userName);
 		addressCreateCompleteDAO.createAddress(
 				session.get("loginId").toString(),
 				userName,
-				Integer.parseInt(session.get("userTel").toString()),
+				session.get("userTel").toString(),
 				session.get("userMail").toString(),
-				Integer.parseInt(session.get("userAddressNum").toString()),
+				session.get("userAddressNum").toString(),
 				session.get("userAddressPrefecture").toString(),
 				session.get("userAddressCity").toString(),
 				session.get("userAddressOther").toString());

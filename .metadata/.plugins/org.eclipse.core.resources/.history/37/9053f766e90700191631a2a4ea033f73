@@ -1,0 +1,82 @@
+package com.sample.spsite.action;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.CartDAO;
+import com.sample.spsite.dto.CartInfoDTO;
+
+public class CartAction  extends ActionSupport implements SessionAware{
+	public Map<String,Object> session;
+	private String type;
+
+	private CartDAO cartDAO = new CartDAO();
+	private ArrayList<CartInfoDTO> cartList = new ArrayList<CartInfoDTO>();
+
+	public String execute() throws SQLException{
+
+		if(session.containsKey("loginId")){
+			cartDAO.insertUserId(loginId);
+			cartList = cartDAO.getCartItemInfo();
+			cartDAO.getCartTotalPrice(loginId);
+			int sum = Integer.parseInt(String.valueOf(cartDAO.getCartTotalPrice(loginId)));
+			session.put("sum",sum);
+			session.put("loginId",loginId);
+//			cartList = cartDAO.getCartItemInfo();
+//			session.put("cartList", cartList);
+			String result = SUCCESS;
+			return result;
+		}
+		String result = "login";
+
+		type="cart";
+		session.put("type", type);
+		return result;
+	}
+
+//		CartDAO cartDAO = new CartDAO();
+//		CartInfoDTO cartInfoDTO = cartDAO.getCartItemInfo();
+//		session.put("itemId", cartInfoDTO.getItemId());
+//		session.put("itemCount", cartInfoDTO.getItemCount());
+//		session.put("totalPrice", cartInfoDTO.getTotalPrice());
+//		session.put("regist_date", cartInfoDTO.getRegist_date());
+
+//		String result = "login";
+//		if(session.containsKey("id")){
+//			CartDAO cartDAO = new CartDAO();
+//			CartInfoDTO cartInfoDTO = cartDAO.getCartItemInfo();
+//			session.put("id",cartInfoDTO.getId());
+//			session.put("buyItem_name",cartInfoDTO.getItemName());
+//			session.put("buyItem_price",cartInfoDTO.getItemPrice());
+//			return SUCCESS;
+//		}
+//		String cart;
+//		session.put("type", cart);
+//		return result;
+
+
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session= session;
+	}
+	public Map<String,Object>getSession(){
+		return this.session;
+	}
+	public ArrayList<CartInfoDTO>getCartList(){
+		return this.cartList;
+	}
+	public void serCartList(ArrayList<CartInfoDTO>cartList){
+		this.cartList = cartList;
+	}
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+}

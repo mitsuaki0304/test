@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sample.spsite.dto.BuyItemInfoDTO;
+import com.sample.spsite.dto.ReviewInfoDTO;
 import com.sample.spsite.util.DBConnector;
 
 public class BuyItemListDAO {
 	private DBConnector dbConnector = new DBConnector();
 	private Connection connection = dbConnector.getConnection();
 
-
 	public Map<String, Object> session;
 
-	public ArrayList<BuyItemInfoDTO> getBuyItemListInfo(String sql) throws SQLException {
+	public ArrayList<BuyItemInfoDTO> getBuyItemListInfo() throws SQLException {
 
 		ArrayList<BuyItemInfoDTO> buyItemInfoDTO = new ArrayList<BuyItemInfoDTO>();
-//		sql = "SELECT*FROM item_info_transaction";
+		String sql="SELECT iit.item_id, iit.image_file_path, iit.image_file_name, iit.item_name, iit.item_price, iit.item_stock, iit.item_maker, iit.item_category, ur.avgform from item_info_transaction as iit left join (select item_id, round(avg(rank),1) as avgform from user_review GROUP BY item_id) as ur on iit.item_id = ur.item_id";
 
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -34,6 +34,39 @@ public class BuyItemListDAO {
 				dto.setItemStock(resultSet.getInt("item_stock"));
 				dto.setItemMaker(resultSet.getString("item_maker"));
 				dto.setItemCategory(resultSet.getString("item_category"));
+				dto.setItemReview(resultSet.getDouble("avgform"));
+				dto.setImageFilePath(resultSet.getString("image_file_path"));
+				dto.setImageFileName(resultSet.getString("image_file_name"));
+
+				buyItemInfoDTO.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
+		return buyItemInfoDTO;
+	}
+
+	public ArrayList<BuyItemInfoDTO> getSort(String sql) throws SQLException {
+
+		ArrayList<BuyItemInfoDTO> buyItemInfoDTO = new ArrayList<BuyItemInfoDTO>();
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				BuyItemInfoDTO dto = new BuyItemInfoDTO();
+				dto.setItemId(resultSet.getInt("item_id"));
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setItemPrice(resultSet.getInt("item_price"));
+				dto.setItemStock(resultSet.getInt("item_stock"));
+				dto.setItemMaker(resultSet.getString("item_maker"));
+				dto.setItemCategory(resultSet.getString("item_category"));
+				dto.setItemReview(resultSet.getDouble("avgform"));
+				dto.setImageFilePath(resultSet.getString("image_file_path"));
+				dto.setImageFileName(resultSet.getString("image_file_name"));
 				buyItemInfoDTO.add(dto);
 
 			}
@@ -49,18 +82,22 @@ public class BuyItemListDAO {
 		DBConnector dbConnector = new DBConnector();
 		Connection connection = dbConnector.getConnection();
 		BuyItemInfoDTO buyItemInfoDTO = new BuyItemInfoDTO();
-		String sql = "select * from item_info_transaction where item_id=?";
+
+		String sql="SELECT iit.item_id, iit.item_name, iit.image_file_path, iit.image_file_name, iit.item_price, iit.item_stock, iit.item_maker, iit.item_category, ur.avgform from item_info_transaction as iit left join (select item_id, round(avg(rank),1) as avgform from user_review GROUP BY item_id) as ur on iit.item_id = ur.item_id where iit.item_id=?";		//
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, itemId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
+			if (resultSet.next()) {
 				buyItemInfoDTO.setItemId(resultSet.getInt("item_id"));
 				buyItemInfoDTO.setItemName(resultSet.getString("item_name"));
 				buyItemInfoDTO.setItemPrice(resultSet.getInt("item_price"));
 				buyItemInfoDTO.setItemStock(resultSet.getInt("item_stock"));
 				buyItemInfoDTO.setItemMaker(resultSet.getString("item_maker"));
 				buyItemInfoDTO.setItemCategory(resultSet.getString("item_category"));
+				buyItemInfoDTO.setItemReview(resultSet.getDouble("avgform"));
+				buyItemInfoDTO.setImageFilePath(resultSet.getString("image_file_path"));
+				buyItemInfoDTO.setImageFileName(resultSet.getString("image_file_name"));
 
 			}
 		} catch (SQLException e) {
@@ -72,6 +109,31 @@ public class BuyItemListDAO {
 			e.printStackTrace();
 		}
 		return buyItemInfoDTO;
+	}
+
+	public ReviewInfoDTO reviewAvg(int itemId) {
+		DBConnector dbConnector = new DBConnector();
+		Connection connection = dbConnector.getConnection();
+		ReviewInfoDTO reviewInfoDTO = new ReviewInfoDTO();
+		String sql = "select AVG(rank) as avg from user_review where item_id=?";
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, itemId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				reviewInfoDTO.setItemId(resultSet.getInt("item_id"));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reviewInfoDTO;
 	}
 
 	public Map<String, Object> getSession() {

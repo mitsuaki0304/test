@@ -1,0 +1,113 @@
+package com.sample.spsite.action;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.AddressCreateCompleteDAO;
+
+public class AddressCreateCompleteAction extends ActionSupport implements SessionAware {
+	private String loginId;
+	private String userName;
+	private int userTel;
+	private String userMail;
+	private int userAddressNum;
+	private String userAddressPrefecture;
+	private String userAddressCity;
+	private String userAddressOther;
+
+	public Map<String, Object> session;
+	private AddressCreateCompleteDAO addressCreateCompleteDAO = new AddressCreateCompleteDAO();
+
+	public String execute() throws SQLException {
+		addressCreateCompleteDAO.createAddress(
+				session.get("loginId").toString(),
+				userName,
+				session.get("userTel").toString()),
+				session.get("userMail").toString(),
+				session.get("userAddressNum").toString()),
+				session.get("userAddressPrefecture").toString(),
+				session.get("userAddressCity").toString(),
+				session.get("userAddressOther").toString());
+
+
+		String result = SUCCESS;
+
+		return result;
+	}
+
+	public String getLoginId(){
+		return loginId;
+	}
+	public void setUserId(String loginId){
+		this.loginId = loginId;
+	}
+
+
+	public String getUserName(){
+		return userName;
+	}
+	public void setUserName(String userName){
+		this.userName = userName;
+	}
+
+
+	public int getUserTel(){
+		return userTel;
+	}
+	public void setUserTel(int userTel){
+		this.userTel = userTel;
+	}
+
+
+	public String getuserMail(){
+		return userMail;
+	}
+	public void setUserMail(String userMail){
+		this.userMail = userMail;
+	}
+
+
+	public int getUserAddressNum(){
+		return userAddressNum;
+	}
+	public void setUserAddressNum(int userAddressNum){
+		this.userAddressNum = userAddressNum;
+	}
+
+
+	public String getUserAddressPrefecture(){
+		return userAddressPrefecture;
+	}
+	public void setUserAddressPrefecture(String userAddressPrefecture){
+		this.userAddressPrefecture = userAddressPrefecture;
+	}
+
+
+	public String getUserAddressCity(){
+		return userAddressCity;
+	}
+	public void setUserAddressCity(String userAddressCity){
+		this.userAddressCity = userAddressCity;
+	}
+
+
+	public String getUserAddressOther(){
+		return userAddressOther;
+	}
+	public void setUserAddressOther(String userAddressOther){
+		this.userAddressOther = userAddressOther;
+	}
+
+
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+}

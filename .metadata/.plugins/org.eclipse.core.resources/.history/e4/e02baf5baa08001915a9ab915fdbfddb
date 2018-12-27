@@ -1,0 +1,52 @@
+package com.sample.spsite.dto;
+
+public class LoginDTO {
+	public String login_id;
+
+	public String login_pass;
+
+	public String user_name;
+
+	public boolean loginFlg = false;
+
+	public boolean admin_flg = false;
+
+	private boolean review_flg = false;
+
+	public String getLoginId(){
+		return login_id;
+	}
+
+	public void setLoginId(String login_id){
+		this.login_id = login_id;
+	}
+
+	public String getLoginPassword(){
+		return login_pass;
+	}
+
+	public void setLoginPassword(String login_pass){
+		this.login_pass = login_pass;
+	}
+
+	public String getUserName(){
+		return user_name;
+	}
+	public void setUserName(String user_name){
+		this.user_name = user_name;
+	}
+
+	public boolean getLoginFlg(){
+		return loginFlg;
+	}
+	public void setLoginFlg(boolean loginFlg){
+		this.loginFlg=loginFlg;
+	}
+
+	public boolean getAdminFlg(){
+		return admin_flg;
+	}
+	public void setAdminFlg(boolean admin_flg){
+		this.admin_flg=admin_flg;
+	}
+}

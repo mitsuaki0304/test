@@ -1,0 +1,47 @@
+package com.sample.spsite.action;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.BuyItemListDAO;
+import com.sample.spsite.dto.BuyItemInfoDTO;
+public class SortAction extends ActionSupport implements SessionAware{
+	public Map<String, Object> session;
+	private BuyItemListDAO buyItemListDAO = new BuyItemListDAO();
+	private ArrayList<BuyItemInfoDTO> buyItemList = new ArrayList<BuyItemInfoDTO>();
+	public String sql;
+	public int sort;
+
+	public String execute()throws SQLException{
+		String result = SUCCESS;
+		if(sort==2){
+			sql="SELECT iit.item_id, iit.item_name, iit.item_price, iit.item_stock, iit.item_maker, iit.item_category, ur.avgform from item_info_transaction as iit left join (select item_id, avg(rank) as avgform from user_review GROUP BY item_id) as ur on iit.item_id = ur.item_id ORDER BY item_price DESC";
+//			sql="SELECT*FROM item_info_transaction ORDER BY item_price DESC";
+		}else if(sort==3){
+			sql="SELECT*FROM item_info_transaction ORDER BY item_price ASC";
+		}else {
+			 result = ERROR;
+			 return result;
+		}
+		buyItemList = buyItemListDAO.getSort(sql);
+		session.put("buyItemList", buyItemList);
+
+		return result;
+	}
+
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session = session;
+	}
+
+	public ArrayList<BuyItemInfoDTO>getBuyItemList(){
+		return this.buyItemList;
+	}
+
+
+}
+

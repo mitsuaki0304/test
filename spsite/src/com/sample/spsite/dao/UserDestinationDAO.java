@@ -31,9 +31,9 @@ public class UserDestinationDAO {
 				dto.setId(resultSet.getInt("id"));
 				dto.setUserId(resultSet.getString("user_id"));
 				dto.setUserName(resultSet.getString("user_name"));
-				dto.setUserTel(resultSet.getInt("user_tel"));
+				dto.setUserTel(resultSet.getString("user_tel"));
 				dto.setUserMail(resultSet.getString("user_mail"));
-				dto.setUserAddressNum(resultSet.getInt("user_address_num"));
+				dto.setUserAddressNum(resultSet.getString("user_address_num"));
 				dto.setUserAddressPrefecture(resultSet.getString("user_address_prefecture"));
 				dto.setUserAddressCity(resultSet.getString("user_address_city"));
 				dto.setUserAddressOther(resultSet.getString("user_address_other"));
@@ -64,9 +64,9 @@ public class UserDestinationDAO {
 				dto.setId(resultSet.getInt("id"));
 				dto.setUserId(resultSet.getString("user_id"));
 				dto.setUserName(resultSet.getString("user_name"));
-				dto.setUserTel(resultSet.getInt("user_tel"));
+				dto.setUserTel(resultSet.getString("user_tel"));
 				dto.setUserMail(resultSet.getString("user_mail"));
-				dto.setUserAddressNum(resultSet.getInt("user_address_num"));
+				dto.setUserAddressNum(resultSet.getString("user_address_num"));
 				dto.setUserAddressPrefecture(resultSet.getString("user_address_prefecture"));
 				dto.setUserAddressCity(resultSet.getString("user_address_city"));
 				dto.setUserAddressOther(resultSet.getString("user_address_other"));

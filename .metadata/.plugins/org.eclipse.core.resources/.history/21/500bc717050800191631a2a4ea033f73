@@ -1,0 +1,69 @@
+package com.sample.spsite.action;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.BuyItemCompleteDAO;
+import com.sample.spsite.dao.CartDAO;
+import com.sample.spsite.dto.CartInfoDTO;
+
+public class BuyItemCompleteAction extends ActionSupport implements SessionAware {
+	public Map<String, Object> session;
+	private String loginId;
+	private BuyItemCompleteDAO buyItemCompleteDAO = new BuyItemCompleteDAO();
+	private CartDAO cartDAO = new CartDAO();
+	private ArrayList<CartInfoDTO> cartList = new ArrayList<CartInfoDTO>();
+
+	public String execute() throws SQLException {
+		System.out.println("通過テストLoginId"+loginId);
+		cartList = cartDAO.getCartItemInfo(loginId);
+		for (int i = 0; i < cartList.size(); ++i) {
+			System.out.println("cartList"+cartList.get(i).getItemId());
+			System.out.println("cartList"+cartList.get(i).getItemPrice());
+			System.out.println("cartList"+cartList.get(i).getItemCount());
+			System.out.println("cartList"+cartList.get(i).getTotalPrice());
+			System.out.println("pay);
+			buyItemCompleteDAO.buyItemInfo(
+					cartList.get(i).getItemId(),
+					cartList.get(i).getItemPrice(),
+					cartList.get(i).getItemCount(),
+					cartList.get(i).getTotalPrice(),
+					cartList.get(i).getUserId(),
+					session.get("pay").toString());
+		}
+		String result = SUCCESS;
+		return result;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+
+	public String getLoginId(){
+		return loginId;
+	}
+	public void setLoginId(String loginId){
+		this.loginId = loginId;
+	}
+	public ArrayList<CartInfoDTO>getCartList(){
+		return this.cartList;
+	}
+	public void serCartList(ArrayList<CartInfoDTO>cartList){
+		this.cartList = cartList;
+	}
+}
+//
+// id int primary key not null auto_increment,
+// user_id varchar(16),
+// item_id int not null,
+// item_name varchar(255),
+// item_price int not null,
+// item_count int not null,
+// total_price int not null,
+// regist_date datetime not null
+//

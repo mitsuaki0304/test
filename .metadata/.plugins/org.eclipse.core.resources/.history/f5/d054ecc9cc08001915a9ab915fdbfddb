@@ -1,0 +1,63 @@
+package com.sample.spsite.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.sample.spsite.dto.BuyItemHistoryDTO;
+import com.sample.spsite.util.DBConnector;
+public class BuyItemHistoryDAO {
+	private DBConnector dbConnector = new DBConnector();
+	private Connection connection = dbConnector.getConnection();
+
+	public ArrayList<BuyItemHistoryDTO> getBuyItemHistoryInfo(String user_id)throws SQLException{
+		ArrayList<BuyItemHistoryDTO> buyItemHistoryDTO = new ArrayList<BuyItemHistoryDTO>();
+		String sql ="select*from user_buy_item_info where user_id=?";
+		try{
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, user_id);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next()){
+				BuyItemHistoryDTO dto = new BuyItemHistoryDTO();
+				dto.setItemName(resultSet.getString("item_name"));
+				dto.setItemPrice(resultSet.getInt("item_price"));
+				dto.setItemCount(resultSet.getInt("item_count"));
+				dto.setTotalPrice(resultSet.getString("total_price"));
+				dto.setPayment(resultSet.getString("pay"));
+				dto.setUserAddressNum(resultSet.getInt("user_address_num"));
+				dto.setUserAddressPrefecture(resultSet.getString("user_address_prefecture"));
+				dto.setUserAddressCity(resultSet.getString("user_address_city"));
+				dto.setUserAddressOther(resultSet.getString("user_address_other"));
+				dto.setInsert_date(resultSet.getString("insert_date"));
+				buyItemHistoryDTO.add(dto);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			connection.close();
+		}
+		return buyItemHistoryDTO;
+	}
+	public int buyItemHistoryDelete(String item_transaction_id,String user_master_id)throws SQLException{
+		String sql = "DELETE FROM user_buy_item_transaction WHERE item_transaction_id = ? AND user_master_id = ?";
+
+		PreparedStatement preparedStatement;
+		int result = 0;
+		try{
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, item_transaction_id);
+			preparedStatement.setString(2, user_master_id);
+			result = preparedStatement.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			connection.close();
+		}
+		return result;
+	}
+
+}

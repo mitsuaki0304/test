@@ -10,59 +10,140 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.sample.spsite.dao.BuyItemHistoryDAO;
 import com.sample.spsite.dto.BuyItemHistoryDTO;
 
-public class BuyItemHistoryAction extends ActionSupport implements SessionAware{
+public class BuyItemHistoryAction extends ActionSupport implements SessionAware {
 	public Map<String, Object> session;
-	private BuyItemHistoryDAO buyItemHistoryDAO = new BuyItemHistoryDAO();
-	private ArrayList<BuyItemHistoryDTO> buyItemHistoryList = new ArrayList<BuyItemHistoryDTO>();
 	private String deleteFlg;
 	private String message;
+	private ArrayList<BuyItemHistoryDTO> buyItemHistoryList = new ArrayList<BuyItemHistoryDTO>();
+	private BuyItemHistoryDAO buyItemHistoryDAO = new BuyItemHistoryDAO();
 
 	public String execute() throws SQLException {
-		if(!session.containsKey("id")){
-			return ERROR;
-		}
-		if(deleteFlg==null){
-			String item_transaction_id = session.get("id").toString();
-			String user_master_id = session.get("login_user_id").toString();
-			buyItemHistoryList=buyItemHistoryDAO.getBuyItemHistoryInfo(item_transaction_id,user_master_id);
-		}else if(deleteFlg.equals("1")){
+
+		if (deleteFlg == null) {
+			String user_id = session.get("loginId").toString();
+			buyItemHistoryList = buyItemHistoryDAO.getBuyItemHistoryInfo(user_id);
+		} else if (deleteFlg.equals("1")) {
 			delete();
 		}
-		String result=SUCCESS;
+		String result = SUCCESS;
 		return result;
+
 	}
 
 	public void delete() throws SQLException {
-		String item_transaction_id = session.get("id").toString();
-		String user_master_id = session.get("login_user_id").toString();
 
-		int res = buyItemHistoryDAO.buyItemHistoryDelete(item_transaction_id,user_master_id);
+		String user_id = session.get("loginId").toString();
 
-		if(res>0){
+		int res = buyItemHistoryDAO.buyItemHistoryDelete(user_id);
+
+		if (res > 0) {
 			buyItemHistoryList = null;
-			setMessage("商品情報を正しく削除しました。");
-		} else if(res==0){
-			setMessage("商品情報の削除に失敗しました。");
+			setMessage("商品情報を削除しました。");
+		} else if (res == 0) {
+			setMessage("商品情報を削除できませんでした。");
 		}
 	}
 
-		public void setDeleteFlg(String deleteFlg){
-			this.deleteFlg = deleteFlg;
-		}
-		@Override
-		public void setSession(Map<String,Object>session){
-			this.session = session;
-		}
-		public ArrayList<BuyItemHistoryDTO> getBuyItemHistoryList(){
-			return this.buyItemHistoryList;
-		}
-		public String getMessage(){
-			return this.message;
-		}
-		public void setMessage(String message){
-			this.message=message;
-		}
-
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
+	public void setDeleteFlg(String deleteFlg) {
+		this.deleteFlg = deleteFlg;
+	}
 
+	public ArrayList<BuyItemHistoryDTO> getBuyItemHistoryList() {
+		return this.buyItemHistoryList;
+	}
+
+	public String getMessage() {
+		return this.message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+}
+// import java.sql.SQLException;
+// import java.util.ArrayList;
+// import java.util.Map;
+//
+// import org.apache.struts2.interceptor.SessionAware;
+//
+// import com.opensymphony.xwork2.ActionSupport;
+// import com.sample.spsite.dao.BuyItemHistoryDAO;
+// import com.sample.spsite.dto.BuyItemHistoryDTO;
+//
+// public class BuyItemHistoryAction extends ActionSupport implements
+// SessionAware {
+// public Map<String, Object> session;
+// private BuyItemHistoryDAO buyItemHistoryDAO = new BuyItemHistoryDAO();
+// private ArrayList<BuyItemHistoryDTO> buyItemHistoryList = new
+// ArrayList<BuyItemHistoryDTO>();
+// private String deleteFlg;
+// private String message;
+// private String loginId;
+// private int itemId;
+//
+// public String execute() throws SQLException {
+//
+// if (deleteFlg == null) {
+// String item_transaction_id = session.get("itemId").toString();
+// String user_master_id = session.get("loginId").toString();
+// buyItemHistoryList =
+// buyItemHistoryDAO.getBuyItemHistoryInfo(item_transaction_id, user_master_id);
+// } else if (deleteFlg.equals("1")) {
+// delete();
+// }
+// String result = SUCCESS;
+// return result;
+// }
+//
+// public void delete() throws SQLException {
+// String item_transaction_id = session.get("itemId").toString();
+// String user_master_id = session.get("loginId").toString();
+//
+// int res = buyItemHistoryDAO.buyItemHistoryDelete(item_transaction_id,
+// user_master_id);
+//
+// if (res > 0) {
+// buyItemHistoryList = null;
+// setMessage("商品情報を正しく削除しました。");
+// } else if (res == 0) {
+// setMessage("商品情報の削除に失敗しました。");
+// }
+// }
+//
+// public void setDeleteFlg(String deleteFlg) {
+// this.deleteFlg = deleteFlg;
+// }
+//
+// @Override
+// public void setSession(Map<String, Object> session) {
+// this.session = session;
+// }
+//
+// public ArrayList<BuyItemHistoryDTO> getBuyItemHistoryList() {
+// return this.buyItemHistoryList;
+// }
+//
+
+//
+// public String getLoginId() {
+// return loginId;
+// }
+//
+// public void setLoginId(String loginId) {
+// this.loginId = loginId;
+// }
+//
+// public int getItemId() {
+// return itemId;
+// }
+//
+// public void setItemId(int itemId) {
+// this.itemId = itemId;
+// }
+//
+// }

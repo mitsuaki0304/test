@@ -7,18 +7,26 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.sample.spsite.dao.BuyItemListDAO;
+import com.sample.spsite.dao.ReviewCompleteDAO;
 import com.sample.spsite.dto.BuyItemInfoDTO;
-
+import com.sample.spsite.dto.ReviewInfoDTO;
 public class BuyItemListAction extends ActionSupport implements SessionAware {
 
 	public Map<String, Object> session;
 	public String sql;
 	private BuyItemListDAO buyItemListDAO = new BuyItemListDAO();
 	private ArrayList<BuyItemInfoDTO> buyItemList = new ArrayList<BuyItemInfoDTO>();
-
+	private ArrayList<ReviewInfoDTO> rankAvgList = new ArrayList<ReviewInfoDTO>();
+	private ReviewCompleteDAO reviewCompleteDAO = new ReviewCompleteDAO();
 	public String execute() throws SQLException {
-		sql = "SELECT*FROM item_info_transaction";
-		buyItemList = buyItemListDAO.getBuyItemListInfo(sql);
+
+		rankAvgList= reviewCompleteDAO.getAvg();
+		buyItemList = buyItemListDAO.getBuyItemListInfo();
+//		for (int i = 0; i < rankAvgList.size(); ++i) {
+//			int rank = rankAvgList.get(i).getAvg();
+//		buyItemList = buyItemListDAO.getAddReview(rank);
+//
+//		}
 		session.put("buyItemList", buyItemList);
 		String result = SUCCESS;
 		return result;
@@ -37,6 +45,14 @@ public class BuyItemListAction extends ActionSupport implements SessionAware {
 
 	public void setBuyItemList(ArrayList<BuyItemInfoDTO> buyItemList) {
 		this.buyItemList = buyItemList;
+	}
+
+	public ArrayList<ReviewInfoDTO>getRankAvgList(){
+		return this.rankAvgList;
+	}
+
+	public void setRankAvgList(ArrayList<ReviewInfoDTO> rankAvgList) {
+		this.rankAvgList = rankAvgList;
 	}
 
 

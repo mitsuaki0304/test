@@ -1,0 +1,67 @@
+package com.sample.spsite.action;
+
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.sample.spsite.dao.ReviewCompleteDAO;
+import com.sample.spsite.dto.LoginDTO;
+import com.sample.spsite.dto.ReviewInfoDTO;
+public class ReviewAction extends ActionSupport implements SessionAware {
+	public Map<String,Object> session;
+	private String type;
+
+	private ArrayList<ReviewInfoDTO> reviewList = new ArrayList<ReviewInfoDTO>();
+
+	private int itemId;
+	private
+	public String execute() throws SQLException{
+		LoginDTO loginDTO = new LoginDTO();
+		ReviewCompleteDAO reviewCompleteDAO = new ReviewCompleteDAO();
+		if(session.containsKey("loginId")){reviewCompleteDAO.doublecheck(itemId,session.get("loginId").toString());
+
+		if (loginDTO.getReviewFlg()) {
+			String result = ERROR;
+			return result;
+		}
+
+
+			String result = SUCCESS;
+			return result;
+		}
+		String result = "login";
+
+		type="review";
+		session.put("type", type);
+		return result;
+	}
+
+	@Override
+	public void setSession(Map<String,Object>session){
+		this.session= session;
+	}
+	public Map<String,Object>getSession(){
+		return this.session;
+	}
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	public ArrayList<ReviewInfoDTO>getReviewList(){
+		return this.reviewList;
+	}
+	public int getItemId(){
+		return itemId;
+	}
+	public void setItemId(int itemId){
+		this.itemId = itemId;
+	}
+
+}

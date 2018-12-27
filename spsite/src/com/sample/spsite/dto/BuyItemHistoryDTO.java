@@ -1,17 +1,24 @@
 package com.sample.spsite.dto;
 
 public class BuyItemHistoryDTO {
+
 	public String itemName;
+
+	public int itemPrice;
+
+	public int itemCount;
 
 	public String totalPrice;
 
-	public String totalCount;
-
 	public String payment;
 
-	public String userName;
+	private int userAddressNum;
 
-	public String id;
+	private String userAddressPrefecture;
+
+	private String userAddressCity;
+
+	private String userAddressOther;
 
 	public String insert_date;
 
@@ -22,6 +29,22 @@ public class BuyItemHistoryDTO {
 		this.itemName = itemName;
 	}
 
+	public int getItemPrice(){
+		return itemPrice;
+	}
+
+	public void setItemPrice(int itemPrice){
+		this.itemPrice = itemPrice;
+	}
+
+	public int getItemCount(){
+		return itemCount;
+	}
+
+	public void setItemCount(int itemCount){
+		this.itemCount = itemCount;
+	}
+
 	public String getTotalPrice(){
 		return totalPrice;
 	}
@@ -29,12 +52,6 @@ public class BuyItemHistoryDTO {
 		this.totalPrice = totalPrice;
 	}
 
-	public String getTotalCount(){
-		return totalCount;
-	}
-	public void setTotalCount(String totalCount){
-		this.totalCount = totalCount;
-	}
 
 	public String getPayment(){
 		return payment;
@@ -43,20 +60,38 @@ public class BuyItemHistoryDTO {
 		this.payment = payment;
 	}
 
-	public String getUserName(){
-		return userName;
+
+
+
+	public int getUserAddressNum(){
+		return userAddressNum;
+	}
+	public void setUserAddressNum(int userAddressNum){
+		this.userAddressNum = userAddressNum;
 	}
 
-	public void setUserName(String userName){
-		this.userName = userName;
+
+	public String getUserAddressPrefecture(){
+		return userAddressPrefecture;
+	}
+	public void setUserAddressPrefecture(String userAddressPrefecture){
+		this.userAddressPrefecture = userAddressPrefecture;
 	}
 
-	public String getId(){
-		return id;
+
+	public String getUserAddressCity(){
+		return userAddressCity;
+	}
+	public void setUserAddressCity(String userAddressCity){
+		this.userAddressCity = userAddressCity;
 	}
 
-	public void setId(String id){
-		this.id = id;
+
+	public String getUserAddressOther(){
+		return userAddressOther;
+	}
+	public void setUserAddressOther(String userAddressOther){
+		this.userAddressOther = userAddressOther;
 	}
 
 	public String getInsert_date(){

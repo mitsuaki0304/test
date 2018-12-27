@@ -1,0 +1,45 @@
+package com.sample.spsite.dao;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.sample.spsite.util.DBConnector;
+import com.sample.spsite.util.DateUtil;
+
+
+public class BuyItemCompleteDAO {
+	private DBConnector dbConnector = new DBConnector();
+	private Connection connection = dbConnector.getConnection();
+	private DateUtil dateUtil = new DateUtil();
+	private String sql="INSERT INTO user_buy_item_transaction(item_id, item_name, item_price, item_count, total_price, user_id, pay, user_address_num, user_address_prefecture, user_address_city, user_address_other, insert_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	public void buyItemInfo(int item_id, String item_name, int item_price,
+			int item_count ,int total_price, String user_id , String pay,
+			String  user_address_num, String user_address_prefecture,
+			String user_address_city, String user_address_other)throws SQLException {
+
+			try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1,item_id);
+			preparedStatement.setString(2,item_name);
+			preparedStatement.setInt(3,item_price);
+			preparedStatement.setInt(4,item_count);
+			preparedStatement.setInt(5,total_price);
+			preparedStatement.setString(6,user_id);
+			preparedStatement.setString(7,pay);
+			preparedStatement.setInt(8,user_address_num);
+			preparedStatement.setString(9,user_address_prefecture);
+			preparedStatement.setString(10,user_address_city);
+			preparedStatement.setString(11,user_address_other);
+			preparedStatement.setString(12,dateUtil.getDate());
+			preparedStatement.execute();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+//			connection.close();
+		}
+	}
+
+}

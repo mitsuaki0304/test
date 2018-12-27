@@ -10,28 +10,35 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 import com.sample.spsite.dao.CartDAO;
 import com.sample.spsite.dao.LoginDAO;
+import com.sample.spsite.dao.ReviewCompleteDAO;
+import com.sample.spsite.dto.BuyItemInfoDTO;
 import com.sample.spsite.dto.CartInfoDTO;
 import com.sample.spsite.dto.LoginDTO;
-
+import com.sample.spsite.dto.ReviewInfoDTO;
 public class LoginAction extends ActionSupport implements SessionAware {
 	private String loginUserId;
 	private String loginPassword;
-
+	private int itemId;
 	public Map<String, Object> session;
 	private LoginDAO loginDAO = new LoginDAO();
 	private LoginDTO loginDTO = new LoginDTO();
+	private BuyItemInfoDTO buyItemInfoDTO = new BuyItemInfoDTO();
 	//ログイン先判定
 	private String type;
 	//カートsession.put用
 	private CartDAO cartDAO = new CartDAO();
 	private ArrayList<CartInfoDTO> cartList = new ArrayList<CartInfoDTO>();
-
+	//レビュー判定
+	private ReviewCompleteDAO reviewCompleteDAO = new ReviewCompleteDAO();
+	private ArrayList<ReviewInfoDTO> reviewList = new ArrayList<ReviewInfoDTO>();
+	private String message;
 	public String execute() throws SQLException{
 
 		String result = ERROR;
 		loginDTO = loginDAO.getLoginUserInfo(loginUserId, loginPassword);
 		session.put("loginUser", loginDTO);
-
+		System.out.println("userName"+loginDTO.getUserName());
+		System.out.println("userPass"+loginDTO.getLoginPassword());
 		if (((LoginDTO) session.get("loginUser")).getLoginFlg()) {
 
 			result = SUCCESS;
@@ -45,6 +52,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
 				return result;
 			}
 			String loginId=loginDTO.getLoginId();
+
 			String userName = loginDTO.getUserName();
 			System.out.println("テストユーザーネーム"+userName);
 			System.out.println("テストログインID"+loginId);
@@ -53,11 +61,12 @@ public class LoginAction extends ActionSupport implements SessionAware {
 			case "cart":
 				result="cart";
 				cartDAO.insertUserId(loginId);
-				cartList = cartDAO.getCartItemInfo();
+				cartList = cartDAO.getCartItemInfo(loginId);
 				cartDAO.getCartTotalPrice(loginId);
 				int sum = Integer.parseInt(String.valueOf(cartDAO.getCartTotalPrice(loginId)));
 				session.put("sum",sum);
 				session.put("loginId",loginId);
+				session.put("userName",userName);
 //				int sumPrice;
 //				sumPrice = cartDAO.sumPrice(loginId);
 //				session.put("cartList", cartList);
@@ -66,6 +75,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
 			case "mypage":
 				result="mypage";
 				session.put("loginId",loginId);
+				session.put("itemId",buyItemInfoDTO.getItemId());
 				session.put("userName", loginDTO.getUserName());
 				System.out.println("userName"+loginDTO.getUserName());
 				return result;
@@ -74,9 +84,19 @@ public class LoginAction extends ActionSupport implements SessionAware {
 				result="review";
 				session.put("loginId",loginId);
 				session.put("userName", loginDTO.getUserName());
-
 				session.put("itemId", session.get("itemId"));
 				session.put("itemName", session.get("itemName"));
+				setMessage("すでにレビュー投稿されています。");
+//				System.out.print("LoginitemId"+itemId);
+//				System.out.print("LoginlitemIdsession"+session.get("itemId"));
+				int itemId = Integer.parseInt(session.get("itemId").toString());
+				loginDTO=reviewCompleteDAO.doublecheck(itemId, loginId);
+//				System.out.print("Flg"+loginDTO.getReviewFlg());
+				if (loginDTO.getReviewFlg()) {
+				    result = "reviewError";
+				    reviewList=reviewCompleteDAO.serchReview(itemId);
+					return result;
+				}
 				return result;
 			}
 		}
@@ -105,6 +125,26 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+
+	public ArrayList<ReviewInfoDTO>getReviewList(){
+		return this.reviewList;
+	}
+
+	public String getMessage() {
+		return this.message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	@Override

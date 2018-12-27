@@ -19,15 +19,15 @@ public class SortAction extends ActionSupport implements SessionAware{
 	public String execute()throws SQLException{
 		String result = SUCCESS;
 		if(sort==2){
-			sql="SELECT*FROM item_info_transaction ORDER BY item_price DESC";
+			sql="SELECT iit.item_id, iit.item_name, iit.image_file_path, iit.image_file_name, iit.item_price, iit.item_stock, iit.item_maker, iit.item_category, ur.avgform from item_info_transaction as iit left join (select item_id, round(avg(rank),1) as avgform from user_review GROUP BY item_id) as ur on iit.item_id = ur.item_id ORDER BY item_price DESC";
+//			sql="SELECT*FROM item_info_transaction ORDER BY item_price DESC";
 		}else if(sort==3){
-			sql="SELECT*FROM item_info_transaction ORDER BY item_price ASC";
+			sql="SELECT iit.item_id, iit.item_name, iit.image_file_path, iit.image_file_name, iit.item_price, iit.item_stock, iit.item_maker, iit.item_category, ur.avgform from item_info_transaction as iit left join (select item_id, round(avg(rank),1) as avgform from user_review GROUP BY item_id) as ur on iit.item_id = ur.item_id ORDER BY item_price ASC";
 		}else {
 			 result = ERROR;
 			 return result;
 		}
-		System.out.println("sortのテストa"+sort);
-		buyItemList = buyItemListDAO.getBuyItemListInfo(sql);
+		buyItemList = buyItemListDAO.getSort(sql);
 		session.put("buyItemList", buyItemList);
 
 		return result;
