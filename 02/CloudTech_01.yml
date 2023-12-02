@@ -1,0 +1,107 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: cloudtech_01 VPC and Subnet Create
+
+Parameters:
+  Prefix:
+    Type: String
+    Default: "cloudtech"
+  VpcCidrBlock: 
+    Type: String
+    Default: "10.0.0.0/16"
+  PublicSubnetCidrBlock: 
+    Type: String
+    Default: "10.0.1.0/24"
+  PrivateSubnetCidrBlock: 
+    Type: String
+    Default: "10.0.2.0/24"
+
+Resources:
+# ------------------------------------------------------------#
+#  VPC
+# ------------------------------------------------------------#
+# VPC Create
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidrBlock
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${Prefix}-VPC"
+
+# ------------------------------------------------------------#
+#  Subnet
+# ------------------------------------------------------------#       
+# Public Subnet1A Create
+  PublicSubnet1A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PublicSubnetCidrBlock
+      Tags:
+        - Key: Name
+          Value: !Sub "${Prefix}-PublicSubnet1A"
+
+# Private Subnet1A Create
+  PrivateSubnet1A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      VpcId: !Ref VPC
+      CidrBlock: !Ref PrivateSubnetCidrBlock
+      Tags:
+        - Key: Name
+          Value: !Sub "${Prefix}-PrivateSubnet1A"
+
+# ------------------------------------------------------------#
+#  InternetGateway
+# ------------------------------------------------------------#    
+# InternetGateway Create
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${Prefix}-InternetGateway"
+          
+# InternetGateway Attach
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+# ------------------------------------------------------------#
+#  RouteTable
+# ------------------------------------------------------------#    
+# Public RouteTableA Create
+  PublicRouteTableA: 
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${Prefix}-PublicRouteTableA"
+
+# ------------------------------------------------------------#
+#  Routing
+# ------------------------------------------------------------# 
+#Public RouteTableA Setting
+  PublicRouteA:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTableA
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+# ------------------------------------------------------------#
+# RouteTable Associate
+# ------------------------------------------------------------# 
+# PublicRouteTable Associate SubnetA
+  PublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTableA
+      SubnetId: !Ref PublicSubnet1A
+ 
